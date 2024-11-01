@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update user</title>
+</head>
+<style>
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+        width: 50%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #000000;
+    }
+</style>
+<body>
+
+<form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
+    <!--    (id=${user.getId()})-->
+    <input type="hidden" th:value="${user.getId()}" name="id"/>
+    <label for="name">Enter name:</label>
+    <input type="text" th:field="*{username}" id="name"/>
+    <br/>
+    <label for="password">Enter password:</label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br/>
+    <label for="email">Enter email:</label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <br/>
+    <label for="name">Select role:</label>
+
+    <table>
+        <tr>
+                <td>
+                    <input th:type="checkbox" th:selected="${user.getAuthorities() == 'ROLE_USER'}"
+                           type="hidden" value="ROLE_USER" name="role" />
+                    <label>USER</label>
+                </td>
+                <td><label>
+                    <input th:type="checkbox" th:selected="${user.getAuthorities() == 'ROLE_ADMIN'}"
+                           type="hidden" value="ROLE_ADMIN" name="role"/>
+                    <label>ADMIN</label>
+                </label>
+                </td>
+        </tr>
+    </table>
+    <input type="submit" value="Update!"/>
+</form>
+
+</body>
+</html>

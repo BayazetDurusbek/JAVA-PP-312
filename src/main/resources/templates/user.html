@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>User's page</title>
+</head>
+<body>
+<h1>User Details</h1>
+<h2><label>Id: </label>
+    <span th:text="${user.getId()}">Id</span></h2>
+<h2><label>Name: </label>
+    <span th:text="${user.getUsername()}">Name</span></h2>
+<h2><label>Email: </label>
+    <span th:text="${user.getEmail}">Email</span></h2>
+</br>
+<a th:if="!${user.getAuthorities().contains('ROLE_ADMIN')}" th:href="@{/}"><button>Back - HomePage</button></a>
+<a th:if="${user.getAuthorities().contains('ROLE_ADMIN')}" th:href="@{/admin}"><button>Back - HomePageAdmin</button></a>
+<a th:href="@{/logout}"><button>Logout</button></a>
+</body>
+</html>

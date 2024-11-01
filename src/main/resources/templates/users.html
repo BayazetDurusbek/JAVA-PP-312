@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="eu" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .sidebar {
+        background-color: #212529;
+        color: white;
+        padding: 20px;
+        min-height: 100vh;
+    }
+
+    .sidebar a {
+        color: white;
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+    }
+
+    .sidebar a:hover {
+        background-color: #343a40;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .navbar {
+        background-color: #212529;
+        color: white;
+        padding: 10px 20px;
+    }
+
+    .navbar span {
+        color: white;
+    }
+
+    .content {
+        padding: 20px;
+    }
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <ul class="navbar-nav ml-auto-left">
+        <li class="nav-item">
+            <span class="navbar-brand mr-3" th:text="${userPrincipal.email}"></span>
+        </li>
+        <li class="nav-item">
+            <span class="navbar-brand mr-3"
+                  th:text="'with roles: '">
+            </span>
+            <span th:each="role : ${userPrincipal.getAuthorities()}"
+                  th:text="${role.getAuthority().replace('ROLE_','')} + ' '"></span>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/logout}">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <th:block th:each="user : ${users}">
+            <a th:href="@{/user}" th:value="${user.getUsername()}" th:type="text"></a>
+        </th:block>
+    </div>
+    <div class="col-md-12-right content">
+        <div class="col-md-10-right sidebar">
+            <h1>Admin panel</h1>
+            <!--            <div class="d-flex justify-content-between align-items-center mb-3">-->
+            <!--            </div>-->
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span class="nav-link active rounded-5" aria-selected="true">User table</span>
+                    <span><a th:href="@{/admin/create}">
+                    <button class="nav-link active rounded-5" id="create-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">New User</button>
+                    </a>
+                    </span>
+<!--                    <span class="navbar">Users table</span>-->
+<!--                    <a th:href="@{/admin/create}" class="navbar">-->
+<!--                        New User</a>-->
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <!--                            <th>Last Name</th>-->
+                            <!--                            <th>Age</th>-->
+                            <th>Password</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.getId()}"></td>
+                            <td th:text="${user.getUsername()}"></td>
+                            <td th:text="${user.getPassword()}"></td>
+                            <td th:text="${user.getEmail()}"></td>
+                            <td>
+                                <span th:each="role : ${user.getAuthorities()}"
+                                      th:text="${role.getAuthority().replace('ROLE_','')} + ' '"></span>
+                            </td>
+                            <td>
+                                <form th:action="@{/admin}" th:method="post">
+                                    <input type="hidden" name="id" th:value="${user.getId()}"/>
+                                    <input type="hidden" name="action" value="edit"/>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{/admin}" th:method="post">
+                                    <input type="hidden" name="id" th:value="*{user.getId()}"/>
+                                    <input type="hidden" name="action" value="delete"/>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <!--                        <tr>-->
+                        <!--                            <td><button class="btn btn-primary btn-sm">Edit</button></td>-->
+                        <!--                            <td><button class="btn btn-danger btn-sm">Delete</button></td>-->
+                        <!--                        </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</body>
+</html>
+<!--<style>-->
+<!--    div {-->
+<!--        margin-bottom: 10px;-->
+<!--    }-->
+<!--    table {-->
+<!--        border-collapse: collapse;-->
+<!--        margin-bottom: 10px;-->
+<!--    }-->
+
+<!--    th, td {-->
+<!--        border-right: 1px solid #000000;-->
+<!--        border-bottom: 1px solid #000000;-->
+<!--    }-->
+<!--</style>-->
+<!--<h1>Administrative Panel</h1>-->
+<!--<div>-->
+<!--    <a th:href="@{/admin/create}">-->
+<!--        <button>Create user</button>-->
+<!--    </a>-->
+<!--</div>-->
+
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>User name</th>-->
+<!--        <th>Password</th>-->
+<!--        <th>Emil</th>-->
+<!--        <th>Roles</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="user : ${users}">-->
+<!--        <td th:text="${user.getId()}"></td>-->
+<!--        <td th:text="${user.getUsername()}"></td>-->
+<!--        <td th:text="${user.getPassword()}"></td>-->
+<!--        <td th:text="${user.getEmail()}"></td>-->
+<!--        <td>-->
+<!--            <span th:each="role : ${user.getAuthorities()}" th:text="${role.getAuthority()} + ' '"></span>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <form th:action="@{/admin}" th:method="post">-->
+<!--                <input type="hidden" name="id" th:value="${user.getId()}"/>-->
+<!--                <input type="hidden" name="action" value="edit"/>-->
+<!--                <button type="submit">Edit</button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <form th:action="@{/admin}" th:method="post">-->
+<!--                <input type="hidden" name="id" th:value="*{user.getId()}"/>-->
+<!--                <input type="hidden" name="action" value="delete"/>-->
+<!--                <button type="submit">Delete</button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+<!--<div>-->
+<!--    <a th:href="@{/logout}">-->
+<!--        <button>Logout</button>-->
+<!--    </a>-->
+<!--</div>-->

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Please Sign in</h2>
+                    <form action="/login" method="post">
+                        <div class="form-group">
+                            <!--                            <label for="email">Email:</label>-->
+                            <input type="email" id="email" name="email" class="form-control"
+                                   placeholder="Email address">
+                        </div>
+                        <div class="form-group">
+                            <!--                            <label for="password">Password:</label>-->
+                            <input type="password" id="password" name="password" class="form-control"
+                                   placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2>
+        <div>
+            Avtorizaciya po Email:
+        </div>
+    </h2>
+    <h3>
+        <div>
+            Admin: admin@gmail.com
+            password: admin
+        </div>
+    </h3>
+    <h3>
+        <div>
+            User: user@mail.ru
+            password: user
+        </div>
+    </h3>
+</div>
+</body>
+</html>
